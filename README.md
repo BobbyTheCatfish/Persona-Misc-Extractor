@@ -7,6 +7,8 @@ Drag a supported file on the executable to convert it to or from a JSON. Note th
 
 ## Currently Supported
 - ENV (Environment)
+- CAR
+- HTB (Hit Table)
 
 ### In Progress
 - None at the moment
