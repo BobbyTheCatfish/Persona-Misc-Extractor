@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Misc_Extractor;
 using Newtonsoft.Json;
 
 namespace MiscExtractor
@@ -9,12 +10,13 @@ namespace MiscExtractor
     {
         private static void Main(string[] args)
         {
-            args = ["C:\\Users\\jaabs\\Downloads\\ENV0001_001_014.ENV.json"];
+            args = ["C:\\Users\\jaabs\\Downloads\\F002_001.CAR.json"];
             var filesettings = StringComparison.InvariantCultureIgnoreCase;
             var supportedFiles = new string[]
             {
                 ".ENV",
-                ".JSON"
+                ".CAR",
+                ".JSON",
             };
 
             if (args.Length == 0)
@@ -54,6 +56,10 @@ namespace MiscExtractor
                 {
                     file = JsonConvert.DeserializeObject<EnvFormat>(json, writeSettings);
                 }
+                else if (path.EndsWith(".car.json", filesettings))
+                {
+                    file = JsonConvert.DeserializeObject<CarFormat>(json, writeSettings);
+                }
                 else
                 {
                     Console.WriteLine("Unrecognized JSON type. Did you alter the extension of this file? Expected name format is 'filename.format.json'");
@@ -77,6 +83,11 @@ namespace MiscExtractor
             {
                 obj = new EnvFormat(path);
                 newExtension = "env.json";
+            }
+            else if (path.EndsWith("car", filesettings))
+            {
+                obj = new CarFormat(path);
+                newExtension = "car.json";
             }
             else
             {
