@@ -10,12 +10,17 @@ namespace MiscExtractor
     {
         private static void Main(string[] args)
         {
-            args = ["C:\\Users\\jaabs\\Downloads\\F002_001.CAR.json"];
+            var DEBUG = false;
+            if (DEBUG)
+            {
+                args = ["C:\\Users\\jaabs\\Downloads\\F000_001_00.HTB.json"];
+            }
             var filesettings = StringComparison.InvariantCultureIgnoreCase;
             var supportedFiles = new string[]
             {
                 ".ENV",
                 ".CAR",
+                ".HTB",
                 ".JSON",
             };
 
@@ -60,6 +65,10 @@ namespace MiscExtractor
                 {
                     file = JsonConvert.DeserializeObject<CarFormat>(json, writeSettings);
                 }
+                else if (path.EndsWith(".htb.json", filesettings))
+                {
+                    file = JsonConvert.DeserializeObject<HtbFormat>(json, writeSettings);
+                }
                 else
                 {
                     Console.WriteLine("Unrecognized JSON type. Did you alter the extension of this file? Expected name format is 'filename.format.json'");
@@ -88,6 +97,11 @@ namespace MiscExtractor
             {
                 obj = new CarFormat(path);
                 newExtension = "car.json";
+            }
+            else if (path.EndsWith("htb", filesettings))
+            {
+                obj = new HtbFormat(path);
+                newExtension = "htb.json";
             }
             else
             {
