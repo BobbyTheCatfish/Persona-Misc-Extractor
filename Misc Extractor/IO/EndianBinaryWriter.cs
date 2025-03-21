@@ -72,8 +72,8 @@ namespace MiscExtractor.IO
 
         private void Init(Encoding encoding, Endianness endianness)
         {
-            Endianness = Endianness.Little;
-            mEndianness = Endianness.Little;
+            Endianness = Endianness.Big;
+            mEndianness = Endianness.Big;
             mEncoding = encoding;
             mScheduledWrites = new LinkedList<ScheduledWrite>();
             mScheduledLateWrites = new LinkedList<ScheduledWrite>();
@@ -200,13 +200,18 @@ namespace MiscExtractor.IO
             foreach (var value in values)
                 Write(value);
         }
-        public void WriteColor(string color)
+        public void WritePercentColor(string color)
         {
-            float[] colors = Utils.ToBytes(color);
+            float[] colors = Utils.ToPercentageBytes(color);
             foreach (var value in colors)
                 Write(value);
         }
-
+        public void WriteColor(string color)
+        {
+            byte[] colors = Utils.ToBytes(color);
+            foreach (var value in colors)
+                Write(value);
+        }
         public override void Write(decimal value)
         {
             base.Write(SwapBytes ? EndiannessHelper.Swap(value) : value);

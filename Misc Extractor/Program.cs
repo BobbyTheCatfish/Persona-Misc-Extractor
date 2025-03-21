@@ -9,7 +9,7 @@ namespace MiscExtractor
     {
         private static void Main(string[] args)
         {
-            args = ["C:\\Users\\jaabs\\Downloads\\ENV0001_001_014.ENV"];
+            args = ["C:\\Users\\jaabs\\Downloads\\ENV0001_001_014.ENV.json"];
             var filesettings = StringComparison.InvariantCultureIgnoreCase;
             var supportedFiles = new string[]
             {
@@ -60,6 +60,7 @@ namespace MiscExtractor
                     return;
                 }
                 file.Save(Path.ChangeExtension(path, null));
+                return;
             }
 
             object obj;

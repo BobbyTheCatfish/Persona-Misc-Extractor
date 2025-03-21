@@ -14,7 +14,7 @@ namespace Misc_Extractor.Formats.ENV
     {
         public bool UnkBool { get; set; }
         public bool Enabled { get; set; }
-        public BSDF CharacterShader { get; set; } = new BSDF();
+        public BSDF FieldShader { get; set; } = new BSDF();
         public Vector3 LightPosition { get; set; }
         public float Field52 { get; set; }
         public float Field56 { get; set; }
@@ -25,7 +25,7 @@ namespace Misc_Extractor.Formats.ENV
             UnkBool = reader.ReadBoolean();
             Enabled = reader.ReadBoolean();
 
-            CharacterShader.Read(reader);
+            FieldShader.Read(reader);
 
             Field52 = reader.ReadSingle();
             Field56 = reader.ReadSingle();
@@ -45,13 +45,13 @@ namespace Misc_Extractor.Formats.ENV
             writer.Write(UnkBool);
             writer.Write(Enabled);
 
-            CharacterShader.Write(writer);
+            FieldShader.Write(writer);
 
-            writer.Write(LightPosition);
             writer.Write(Field52);
             writer.Write(Field56);
             writer.Write(Field5A);
             writer.Write(Field5E);
+            writer.Write(LightPosition);
 
             for (int i = 0; i < 47; i++)
             {

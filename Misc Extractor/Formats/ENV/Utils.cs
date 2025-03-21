@@ -17,18 +17,18 @@ namespace Misc_Extractor.Formats.ENV
 
         internal override void Read(EndianBinaryReader reader)
         {
-            Ambient = reader.ReadColor();
-            Diffuse = reader.ReadColor();
-            Specular = reader.ReadColor();
-            Emissive = reader.ReadColor();
+            Ambient = reader.ReadPercentColor();
+            Diffuse = reader.ReadPercentColor();
+            Specular = reader.ReadPercentColor();
+            Emissive = reader.ReadPercentColor();
         }
 
         internal override void Write(EndianBinaryWriter writer)
         {
-            writer.WriteColor(Ambient);
-            writer.WriteColor(Diffuse);
-            writer.WriteColor(Specular);
-            writer.WriteColor(Emissive);
+            writer.WritePercentColor(Ambient);
+            writer.WritePercentColor(Diffuse);
+            writer.WritePercentColor(Specular);
+            writer.WritePercentColor(Emissive);
         }
     }
 }

@@ -114,9 +114,14 @@ namespace MiscExtractor.IO
             return array;
         }
 
-        public string ReadColor(bool alpha = true)
+        public string ReadPercentColor(bool alpha = true)
         {
             float[] colors = ReadSingles(alpha ? 4 : 3);
+            return Utils.PercentageToHexString(colors);
+        }
+        public string ReadColor(bool alpha = true)
+        {
+            byte[] colors = ReadBytes(alpha ? 4 : 3);
             return Utils.ToHexString(colors);
         }
 

@@ -32,11 +32,11 @@ namespace Misc_Extractor.Formats.ENV
             CameraPlaneSetting = reader.ReadBoolean();
             StartDistance = reader.ReadSingle();
             EndDistance = reader.ReadSingle();
-            Color = reader.ReadColor();
+            Color = reader.ReadPercentColor();
             EnableFloorFog = reader.ReadBoolean();
             FloorFogStartHeight = reader.ReadSingle();
             FloorFogEndHeight = reader.ReadSingle();
-            FloorFogColor = reader.ReadColor();
+            FloorFogColor = reader.ReadPercentColor();
         }
 
         internal override void Write(EndianBinaryWriter writer)
@@ -47,11 +47,11 @@ namespace Misc_Extractor.Formats.ENV
             writer.Write(CameraPlaneSetting);
             writer.Write(StartDistance);
             writer.Write(EndDistance);
-            writer.WriteColor(Color);
+            writer.WritePercentColor(Color);
             writer.Write(EnableFloorFog);
             writer.Write(FloorFogStartHeight);
             writer.Write(FloorFogEndHeight);
-            writer.WriteColor(FloorFogColor);
+            writer.WritePercentColor(FloorFogColor);
         }
     }
 }

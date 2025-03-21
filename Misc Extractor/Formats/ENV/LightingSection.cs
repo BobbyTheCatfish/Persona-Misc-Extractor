@@ -26,7 +26,12 @@ namespace Misc_Extractor.Formats.ENV
         public float Direction { get; set; }
         public int GlareMode { get; set; }
     }
-
+    public class ColorBoost()
+    {
+        public float R { get; set; }
+        public float G { get; set; }
+        public float B { get; set; }
+    }
     public class LightingSection : FileData
     {
         public bool EnableHDRGraphicalOutput { get; set; }
@@ -51,7 +56,7 @@ namespace Misc_Extractor.Formats.ENV
         public int Field13 { get; set; }
         public float Field14 { get; set; }
         public float Field15 { get; set; }
-        public string ColorBoost {  get; set; }
+        public ColorBoost ColorBoost {  get; set; }
         public float Field16 { get; set; }
         public float Field17 { get; set; }
         public float Field18 { get; set; }
@@ -103,7 +108,11 @@ namespace Misc_Extractor.Formats.ENV
             Field14 = reader.ReadSingle();
             Field15 = reader.ReadSingle();
 
-            ColorBoost = reader.ReadColor(false);
+            ColorBoost = new ColorBoost(){
+                R = reader.ReadSingle(),
+                G = reader.ReadSingle(),
+                B = reader.ReadSingle(),
+            };
             
             Field16 = reader.ReadSingle();
             Field17 = reader.ReadSingle();
@@ -151,8 +160,9 @@ namespace Misc_Extractor.Formats.ENV
             writer.Write(Field14);
             writer.Write(Field15);
 
-            writer.WriteColor(ColorBoost);
-
+            writer.Write(ColorBoost.R);
+            writer.Write(ColorBoost.G);
+            writer.Write(ColorBoost.B);
 
             writer.Write(Field16);
             writer.Write(Field17);
