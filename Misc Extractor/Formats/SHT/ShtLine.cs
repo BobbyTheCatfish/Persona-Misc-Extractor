@@ -1,4 +1,5 @@
-﻿using MiscExtractor.IO;
+﻿using System.Diagnostics;
+using MiscExtractor.IO;
 
 namespace MiscExtractor.Formats.SHT
 {
@@ -65,22 +66,23 @@ namespace MiscExtractor.Formats.SHT
     internal class ShtLine: FileData
     {
         public uint Version { get; set; }
-        public uint Reserve1 { get; set; }
-        public uint Reserve2 { get; set; }
-        public uint Reserve3 { get; set; }
-        public uint Reserve4 { get; set; }
+        // public uint Reserve1 { get; set; }
+        // public uint Reserve2 { get; set; }
+        // public uint Reserve3 { get; set; }
+        // public uint Reserve4 { get; set; }
         public List<LineData> Data { get; set; } = new();
 
         internal override void Read(EndianBinaryReader reader)
         {
             Version = reader.ReadUInt32();
             reader.ReadUInt32();
-            Reserve1 = reader.ReadUInt32();
+            Trace.Assert(reader.ReadUInt32() == 0, "Expected Reserve1 to be 0");
             var entries = reader.ReadUInt32();
 
-            Reserve2 = reader.ReadUInt32();
-            Reserve3 = reader.ReadUInt32();
-            Reserve4 = reader.ReadUInt32();
+            Trace.Assert(reader.ReadUInt32() == 0, "Expected Reserve2 to be 0");
+            Trace.Assert(reader.ReadUInt32() == 0, "Expected Reserve3 to be 0");
+            Trace.Assert(reader.ReadUInt32() == 0, "Expected Reserve4 to be 0");
+
             for (int i = 0; i < entries; i++)
             {
                 var entry = new LineData();
@@ -93,11 +95,11 @@ namespace MiscExtractor.Formats.SHT
             writer.Write((uint)CommandType.Line);
             writer.Write(Version);
             writer.Write(Data.Count * 64 + 32);
-            writer.Write(Reserve1);
+            writer.Write(0);
             writer.Write(Data.Count);
-            writer.Write(Reserve2);
-            writer.Write(Reserve3);
-            writer.Write(Reserve4);
+            writer.Write(0);
+            writer.Write(0);
+            writer.Write(0);
             foreach (var entry in Data)
             {
                 entry.Write(writer);

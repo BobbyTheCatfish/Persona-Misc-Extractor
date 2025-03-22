@@ -28,14 +28,13 @@ namespace MiscExtractor
                 Read(new EndianBinaryReader(stream, Endianness.Big));
         }
 
-        public Header Header { get; set; }
+        public Header Header { get; set; } = new Header();
         public ShtConfig Config { get; set; }
         public ShtLine Lines { get; set; }
         public ShtPoint Points { get; set; }
         public ShtUnk Unk { get; set; }
         internal override void Read(EndianBinaryReader reader)
         {
-            Header = new Header();
             Header.Read(reader);
             while (reader.Position < reader.BaseStream.Length)
             {
