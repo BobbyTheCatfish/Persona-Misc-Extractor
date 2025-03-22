@@ -9,9 +9,6 @@ Drag a supported file on the executable to convert it to or from a JSON. Note th
 - ENV (Environment)
 - CAR
 - HTB (Hit Table)
+- SHT (Sound Hit Table)
 
-### In Progress
-- None at the moment
-
-### Planned
-To be determined. I'm just getting started.
+More formats are likely to be added as time goes on
