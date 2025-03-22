@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.VisualBasic.FileIO;
-using System.Reflection.PortableExecutable;
-using MiscExtractor;
+﻿using MiscExtractor;
 using MiscExtractor.IO;
 using System.Numerics;
 
@@ -12,7 +8,6 @@ namespace Misc_Extractor
     {
         public void Save(string path)
         {
-            Console.WriteLine(path);
             using (var stream = FileHelper.Create(path))
                 Write(new EndianBinaryWriter(stream, Endianness.Big));
         }
@@ -52,7 +47,6 @@ namespace Misc_Extractor
                 };
                 if (PathNodes.Length < 5)
                     reader.ReadVector3s(5 - EntryCount);
-                Console.WriteLine(i);
             }
         }
         internal override void Write(EndianBinaryWriter writer)

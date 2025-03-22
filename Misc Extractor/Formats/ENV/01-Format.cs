@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
-using Misc_Extractor.Formats.ENV;
+﻿using Misc_Extractor.Formats.ENV;
 using MiscExtractor.IO;
 
 namespace MiscExtractor {
@@ -35,7 +28,6 @@ namespace MiscExtractor {
         public byte Field7 { get; set; }
         public void Save(string path)
         {
-            Console.WriteLine(path);
             using (var stream = FileHelper.Create(path))
                 Write(new EndianBinaryWriter(stream, Endianness.Big));
         }

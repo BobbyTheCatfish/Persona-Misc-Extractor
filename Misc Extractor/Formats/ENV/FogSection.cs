@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
-using MiscExtractor;
+﻿using MiscExtractor;
 using MiscExtractor.IO;
 
 namespace Misc_Extractor.Formats.ENV

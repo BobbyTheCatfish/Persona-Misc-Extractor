@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using MiscExtractor.Formats.SHT;
 using MiscExtractor.IO;
-using MiscExtractor.Json.Converters;
-using Newtonsoft.Json;
 
 namespace MiscExtractor
 {
@@ -34,18 +28,18 @@ namespace MiscExtractor
                 Read(new EndianBinaryReader(stream, Endianness.Big));
         }
 
-        public Header Header { get; set; } = new Header();
+        public Header Header { get; set; }
         public ShtConfig Config { get; set; }
         public ShtLine Lines { get; set; }
         public ShtPoint Points { get; set; }
         public ShtUnk Unk { get; set; }
         internal override void Read(EndianBinaryReader reader)
         {
+            Header = new Header();
             Header.Read(reader);
             while (reader.Position < reader.BaseStream.Length)
             {
                 var Type = reader.ReadUInt32();
-                Console.WriteLine(reader.Position);
                 switch (Type)
                 {
                     case 1:
@@ -70,7 +64,10 @@ namespace MiscExtractor
         }
         internal override void Write(EndianBinaryWriter writer)
         {
+            Trace.Assert(Header != null, "Header not found");
             Header.Write(writer);
+
+            Trace.Assert(!(Config == null && Points == null && Lines == null && Unk == null), "Expected some Points, Lines, or Unk.");
 
             Config?.Write(writer);
             Points?.Write(writer);

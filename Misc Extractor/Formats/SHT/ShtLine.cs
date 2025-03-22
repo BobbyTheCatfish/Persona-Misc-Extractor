@@ -1,4 +1,5 @@
 ﻿using MiscExtractor.IO;
+
 namespace MiscExtractor.Formats.SHT
 {
     internal class LineData : FileData

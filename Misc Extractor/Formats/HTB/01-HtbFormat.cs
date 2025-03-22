@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
-using MiscExtractor.IO;
+﻿using MiscExtractor.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -14,7 +8,6 @@ namespace MiscExtractor
     {
         public void Save(string path)
         {
-            Console.WriteLine(path);
             using (var stream = FileHelper.Create(path))
                 Write(new EndianBinaryWriter(stream, Endianness.Big));
         }
@@ -134,10 +127,11 @@ namespace MiscExtractor
             var filesize = 32 + 60 * Entries.Length;
             var endpadding = 15 * Entries.Length;
             endpadding = 4 - endpadding % 4;
-            Console.WriteLine(filesize);
-            Console.WriteLine(endpadding);
+
+            // The end padding behavior is kinda weird ngl
             if (endpadding == 4) endpadding = 0;
-            else endpadding += 4;
+            else if (endpadding != 2) endpadding += 4;
+
             filesize += endpadding * 4;
 
             writer.Write(filesize);

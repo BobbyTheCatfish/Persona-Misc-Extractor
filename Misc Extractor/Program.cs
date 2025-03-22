@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Misc_Extractor;
+﻿using Misc_Extractor;
 using Newtonsoft.Json;
 
 namespace MiscExtractor
@@ -13,7 +10,7 @@ namespace MiscExtractor
             var DEBUG = false;
             if (DEBUG)
             {
-                args = ["C:\\Users\\jaabs\\Downloads\\F000_001_00.HTB.json"];
+                args = ["C:\\Users\\jaabs\\Downloads\\F005_004.SHT.json"];
             }
             var filesettings = StringComparison.InvariantCultureIgnoreCase;
             var supportedFiles = new string[]
@@ -21,6 +18,7 @@ namespace MiscExtractor
                 ".ENV",
                 ".CAR",
                 ".HTB",
+                ".SHT",
                 ".JSON",
             };
 
@@ -69,12 +67,17 @@ namespace MiscExtractor
                 {
                     file = JsonConvert.DeserializeObject<HtbFormat>(json, writeSettings);
                 }
+                else if (path.EndsWith(".sht.json", filesettings))
+                {
+                    file = JsonConvert.DeserializeObject<ShtFormat>(json, writeSettings);
+                }
                 else
                 {
                     Console.WriteLine("Unrecognized JSON type. Did you alter the extension of this file? Expected name format is 'filename.format.json'");
                     return;
                 }
                 file.Save(Path.ChangeExtension(path, null));
+                Console.WriteLine("Finished Conversion");
                 return;
             }
 
@@ -103,6 +106,11 @@ namespace MiscExtractor
                 obj = new HtbFormat(path);
                 newExtension = "htb.json";
             }
+            else if (path.EndsWith("sht", filesettings))
+            {
+                obj = new ShtFormat(path);
+                newExtension = "sht.json";
+            }
             else
             {
                 Console.WriteLine("Unrecognized file type.");
@@ -110,6 +118,7 @@ namespace MiscExtractor
             }
             var extracted = JsonConvert.SerializeObject(obj, readSettings);
             File.WriteAllText(Path.ChangeExtension(path, newExtension), extracted);
+            Console.WriteLine("Finished Conversion");
         }
     }
 }
