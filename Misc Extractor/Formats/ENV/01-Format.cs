@@ -1,4 +1,4 @@
-﻿using Misc_Extractor.Formats.ENV;
+﻿using MiscExtractor.Formats.ENV;
 using MiscExtractor.IO;
 
 namespace MiscExtractor {

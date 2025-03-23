@@ -1,7 +1,7 @@
 ﻿using MiscExtractor;
 using MiscExtractor.IO;
 
-namespace Misc_Extractor.Formats.ENV
+namespace MiscExtractor.Formats.ENV
 {
     public class DOF
     {

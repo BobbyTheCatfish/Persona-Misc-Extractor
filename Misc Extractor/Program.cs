@@ -7,10 +7,10 @@ namespace MiscExtractor
     {
         private static void Main(string[] args)
         {
-            var DEBUG = false;
+            var DEBUG = true;
             if (DEBUG)
             {
-                args = ["C:\\Users\\jaabs\\Downloads\\F005_004.SHT.json"];
+                args = ["C:\\Users\\jaabs\\Downloads\\D091_160.FBN"];
             }
             var filesettings = StringComparison.InvariantCultureIgnoreCase;
             var supportedFiles = new string[]
@@ -19,6 +19,7 @@ namespace MiscExtractor
                 ".CAR",
                 ".HTB",
                 ".SHT",
+                ".FBN",
                 ".JSON",
             };
 
@@ -53,24 +54,27 @@ namespace MiscExtractor
             {
                 var json = File.ReadAllText(path);
                 ISavable file;
-                var writeSettings = new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error, NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.Populate };
+                var writeSettings = new JsonSerializerSettings {
+                    MissingMemberHandling = MissingMemberHandling.Error,
+                    NullValueHandling = NullValueHandling.Include,
+                    DefaultValueHandling = DefaultValueHandling.Populate
+                };
 
                 if (path.EndsWith(".env.json", filesettings))
-                {
                     file = JsonConvert.DeserializeObject<EnvFormat>(json, writeSettings);
-                }
+                
                 else if (path.EndsWith(".car.json", filesettings))
-                {
                     file = JsonConvert.DeserializeObject<CarFormat>(json, writeSettings);
-                }
+                
                 else if (path.EndsWith(".htb.json", filesettings))
-                {
                     file = JsonConvert.DeserializeObject<HtbFormat>(json, writeSettings);
-                }
+                
                 else if (path.EndsWith(".sht.json", filesettings))
-                {
                     file = JsonConvert.DeserializeObject<ShtFormat>(json, writeSettings);
-                }
+                
+                else if (path.EndsWith(".fbn.json", filesettings))
+                    file = JsonConvert.DeserializeObject<FbnFormat>(json, writeSettings);
+
                 else
                 {
                     Console.WriteLine("Unrecognized JSON type. Did you alter the extension of this file? Expected name format is 'filename.format.json'");
@@ -87,7 +91,7 @@ namespace MiscExtractor
                 MissingMemberHandling = MissingMemberHandling.Error,
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Include,
-                DefaultValueHandling = DefaultValueHandling.Populate
+                DefaultValueHandling = DefaultValueHandling.Populate,  
             };
             string newExtension;
 
@@ -110,6 +114,11 @@ namespace MiscExtractor
             {
                 obj = new ShtFormat(path);
                 newExtension = "sht.json";
+            }
+            else if (path.EndsWith("fbn", filesettings))
+            {
+                obj = new FbnFormat(path);
+                newExtension = "fbn.json";
             }
             else
             {
