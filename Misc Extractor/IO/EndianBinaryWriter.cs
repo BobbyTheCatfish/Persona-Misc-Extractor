@@ -247,7 +247,19 @@ namespace MiscExtractor.IO
             foreach ( var item in values )
                 Write( item );
         }
+        public void Write(Vector4 value)
+        {
+            Write(value.X);
+            Write(value.Y);
+            Write(value.Z);
+            Write(value.W);
+        }
 
+        public void Write(IEnumerable<Vector4> values)
+        {
+            foreach (var item in values)
+                Write(item);
+        }
         public void Write(string value, StringBinaryFormat format, int fixedLength = -1)
         {
             switch (format)

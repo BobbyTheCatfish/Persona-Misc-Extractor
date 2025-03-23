@@ -324,6 +324,20 @@ namespace MiscExtractor.IO
             return array;
         }
 
+        public Vector4 ReadVector4()
+        {
+            return new Vector4(ReadSingle(), ReadSingle(), ReadSingle(), ReadSingle());
+        }
+
+        public Vector4[] ReadVector4s(int count)
+        {
+            var array = new Vector4[count];
+            for (int i = 0; i < array.Length; i++)
+                array[i] = ReadVector4();
+
+            return array;
+        }
+
         public string ReadString(StringBinaryFormat format, int fixedLength = -1)
         {
             mStringBuilder.Clear();
