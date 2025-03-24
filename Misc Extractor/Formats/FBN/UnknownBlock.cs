@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 using MiscExtractor.IO;
+using Newtonsoft.Json.Converters;
 using static MiscExtractor.FbnFormat;
 
 namespace MiscExtractor.Formats.FBN
 {
-    public class UnknownBlock : Block
+    public class UnknownBlock : BlockWithId
     {
+        [JsonConverter(typeof(StringEnumConverter))]
+        public FbnListType Type { get; set; }
         public List<string> RawData {  get; set; }
         public int EntryCount { get; set; }
         public uint[] Padding { get; set; }
-        internal override void Read(EndianBinaryReader reader)
+        internal override void Read(EndianBinaryReader reader, FbnListType type)
         {
+            Type = type;
             var header = Utils.GetHeaderInfo(reader);
             Version = header.Version;
             Padding = header.Padding;
@@ -29,7 +29,7 @@ namespace MiscExtractor.Formats.FBN
         }
         internal override void Write(EndianBinaryWriter writer)
         {
-            writer.Write((int)FbnListType.NAVI);
+            writer.Write((int)Type);
             writer.Write(Version);
             writer.Write(32 + 16 * RawData.Count);
             writer.Write(16);

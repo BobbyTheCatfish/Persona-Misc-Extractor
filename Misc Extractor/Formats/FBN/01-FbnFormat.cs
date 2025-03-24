@@ -11,6 +11,7 @@ namespace MiscExtractor
     public abstract class FileDataWithId : FileData
     {
         internal abstract void Write(FbnListType type, EndianBinaryWriter writer);
+        internal abstract void Read(EndianBinaryReader reader, FbnListType type = FbnListType.Entrance);
     }
     public sealed class FbnFormat : FileData, ISavable
     {
@@ -29,11 +30,15 @@ namespace MiscExtractor
         public class BlockWithId() : FileDataWithId
         {
             public int Version { get; set; }
-            internal override void Read(EndianBinaryReader reader)
+            internal override void Read(EndianBinaryReader reader, FbnListType type = FbnListType.Entrance)
             {
                 throw new NotImplementedException();
             }
             internal override void Write(FbnListType type, EndianBinaryWriter writer)
+            {
+                throw new NotImplementedException();
+            }
+            internal override void Read(EndianBinaryReader reader)
             {
                 throw new NotImplementedException();
             }
