@@ -5,13 +5,6 @@ using static MiscExtractor.FbnFormat;
 
 namespace MiscExtractor.Formats.FBN
 {
-    public class PathNode(Vector3 pos, uint WaitTime)
-    {
-        public float X { get; set; } = pos.X;
-        public float Y { get; set; } = pos.Y;
-        public float Z { get; set; } = pos.Z;
-        public uint WaitTime { get; set; } = WaitTime;
-    }
     public class WanderShadowData : FileData
     {
         public int Unk1 { get; set; }
@@ -65,12 +58,7 @@ namespace MiscExtractor.Formats.FBN
         {
             writer.Write((int)FbnListType.ShadowPatrol);
             writer.Write(Version);
-            int size = 32;
-            foreach (var entry in Entries)
-            {
-                size += 26 + entry.PathNodes.Length * 16;
-            }
-            writer.Write(size);
+            writer.Write(32 + Entries.Count * 52);
             writer.Write(16);
             writer.Write((int[])[0, 0, 0]);
             foreach (var Entry in Entries)

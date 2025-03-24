@@ -101,6 +101,7 @@ namespace MiscExtractor
         public TriggerSound MementosHits { get; set; }
         public Entrance MementosEntrances { get; set; }
         public Entrance MementosEntrances2 { get; set; }
+        public Navi Navi {  get; set; }
         internal override void Read(EndianBinaryReader reader)
         {
             while (reader.Position < reader.Length)
@@ -176,6 +177,8 @@ namespace MiscExtractor
                     case FbnListType.CrowdPath:
                         break;
                     case FbnListType.NAVI:
+                        Navi = new Navi();
+                        Navi.Read(reader);
                         break;
                     case FbnListType.CrowdSpawn: break;
                     case FbnListType.Hit: break;

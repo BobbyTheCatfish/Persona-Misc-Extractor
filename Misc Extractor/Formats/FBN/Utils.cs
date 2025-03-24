@@ -12,7 +12,7 @@ namespace MiscExtractor.Formats.FBN
             public int Version { get; set; }
             public int size { get; set; }
             public int EntryCount { get; set; }
-            public int[] Padding { get; set; } = new int[3];
+            public uint[] Padding { get; set; } = new uint[3];
         }
         public static void SizeAssert(int Size, long Start, EndianBinaryReader reader)
         {
@@ -27,7 +27,7 @@ namespace MiscExtractor.Formats.FBN
 
             Trace.Assert(reader.ReadInt32() == 16, "Expected ListOffset of 16");
             info.EntryCount = reader.ReadInt32();
-            info.Padding = reader.ReadInt32s(3);
+            info.Padding = reader.ReadUInt32s(3);
             return info;
         }
 
