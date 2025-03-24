@@ -8,7 +8,7 @@ using static MiscExtractor.FbnFormat;
 
 namespace MiscExtractor.Formats.FBN
 {
-    public class Navi : Block
+    public class UnknownBlock : Block
     {
         public List<string> RawData {  get; set; }
         public int EntryCount { get; set; }

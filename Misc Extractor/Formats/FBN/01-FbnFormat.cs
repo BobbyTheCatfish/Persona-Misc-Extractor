@@ -90,9 +90,9 @@ namespace MiscExtractor
         public Chest Chests { get; set; }
         public Cover Cover { get; set; }
         public SearchObject SearchObjects { get; set; }
+        public TriggerSound SearchObjectHits { get; set; }
         public PatrolShadow PatrolShadows { get; set; }
         public WanderShadow WanderShadows { get; set; }
-        public TriggerSound SearchObjectHits { get; set; }
         public TriggerSound VoiceHits { get; set; }
         public WarningObject WarningObjects { get; set; }
         public NPC NPCs { get; set; }
@@ -101,7 +101,14 @@ namespace MiscExtractor
         public TriggerSound MementosHits { get; set; }
         public Entrance MementosEntrances { get; set; }
         public Entrance MementosEntrances2 { get; set; }
-        public Navi Navi {  get; set; }
+        public UnknownBlock Navi {  get; set; }
+        public UnknownBlock CrowdPaths { get; set; }
+        public UnknownBlock CrowdSpawns {  get; set; }
+        public UnknownBlock Hits { get; set; }
+        public UnknownBlock Masks { get; set; }
+        public UnknownBlock StealsObjs { get; set; }
+        public UnknownBlock Steals {  get; set; }
+        public UnknownBlock LightPaths { get; set; }
         internal override void Read(EndianBinaryReader reader)
         {
             while (reader.Position < reader.Length)
@@ -174,22 +181,42 @@ namespace MiscExtractor
                         MementosEntrances2 = new Entrance();
                         MementosEntrances2.Read(reader);
                         break;
-                    case FbnListType.CrowdPath:
-                        break;
-                    case FbnListType.NAVI:
-                        Navi = new Navi();
-                        Navi.Read(reader);
-                        break;
-                    case FbnListType.CrowdSpawn: break;
-                    case FbnListType.Hit: break;
                     case FbnListType.MementosHit:
                         MementosHits = new TriggerSound();
                         MementosHits.Read(reader);
                         break;
-                    case FbnListType.Mask: break;
-                    case FbnListType.StealsObj: break;
-                    case FbnListType.Steals: break;
-                    case FbnListType.LightPath: break;
+                    case FbnListType.CrowdPath:
+                        CrowdPaths = new UnknownBlock();
+                        CrowdPaths.Read(reader);
+                        break;
+                    case FbnListType.NAVI:
+                        Navi = new UnknownBlock();
+                        Navi.Read(reader);
+                        break;
+                    case FbnListType.CrowdSpawn:
+                        CrowdSpawns = new UnknownBlock();
+                        CrowdSpawns.Read(reader);
+                        break;
+                    case FbnListType.Hit:
+                        Hits = new UnknownBlock();
+                        Hits.Read(reader);
+                        break;
+                    case FbnListType.Mask:
+                        Masks = new UnknownBlock();
+                        Masks.Read(reader);
+                        break;
+                    case FbnListType.StealsObj:
+                        StealsObjs = new UnknownBlock();
+                        StealsObjs.Read(reader);
+                        break;
+                    case FbnListType.Steals:
+                        Steals = new UnknownBlock();
+                        Steals.Read(reader);
+                        break;
+                    case FbnListType.LightPath:
+                        LightPaths = new UnknownBlock();
+                        LightPaths.Read(reader);
+                        break;
                     default: throw new Exception("Unknown Instruction");
                 }
             }
@@ -197,11 +224,30 @@ namespace MiscExtractor
         internal override void Write(EndianBinaryWriter writer)
         {
             new FbnHeader(Version).Write(writer);
+            SoundTriggers?.Write(writer);
+            CrowdSpawns?.Write(writer);
+            Navi?.Write(writer);
+            Entrances?.Write(writer);
+            Hits?.Write(writer);
+            Masks?.Write(writer);
+            CrowdPaths?.Write(writer);
+            WanderShadows?.Write(writer);
             Chests?.Write(writer);
-            WarningObjects?.Write(writer);
+            Cover?.Write(writer);
             PatrolShadows?.Write(writer);
+            MementosHits?.Write(writer);
             MementosEntrances?.Write(FbnListType.MementosEntrance, writer);
+            NPCs?.Write(writer);
+            StealsObjs?.Write(writer);
+            Steals?.Write(writer);
+            LightPaths?.Write(writer);
+            SearchObjects?.Write(writer);
+            SearchObjectHits?.Write(writer);
+            WarningObjects?.Write(writer);
+            VoiceHits?.Write(writer);
             MementosEntrances2?.Write(FbnListType.MementosEntrance2, writer);
+            GrappleObjects?.Write(writer);
+            GrappleTriggers?.Write(writer);
         }
     }
 }
