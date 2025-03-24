@@ -91,12 +91,14 @@ namespace MiscExtractor
         public Cover Cover { get; set; }
         public SearchObject SearchObjects { get; set; }
         public PatrolShadow PatrolShadows { get; set; }
+        public WanderShadow WanderShadows { get; set; }
         public TriggerSound SearchObjectHits { get; set; }
         public TriggerSound VoiceHits { get; set; }
         public WarningObject WarningObjects { get; set; }
         public NPC NPCs { get; set; }
         public GrappleObject GrappleObjects { get; set; }
         public GrappleTrigger GrappleTriggers { get; set; }
+        public TriggerSound MementosHits { get; set; }
         public Entrance MementosEntrances { get; set; }
         public Entrance MementosEntrances2 { get; set; }
         internal override void Read(EndianBinaryReader reader)
@@ -134,6 +136,10 @@ namespace MiscExtractor
                     case FbnListType.ShadowPatrol:
                         PatrolShadows = new PatrolShadow();
                         PatrolShadows.Read(reader);
+                        break;
+                    case FbnListType.ShadowWander:
+                        WanderShadows = new WanderShadow();
+                        WanderShadows.Read(reader);
                         break;
                     case FbnListType.SearchObjectHit:
                         SearchObjectHits = new TriggerSound();
@@ -173,7 +179,10 @@ namespace MiscExtractor
                         break;
                     case FbnListType.CrowdSpawn: break;
                     case FbnListType.Hit: break;
-                    case FbnListType.MementosHit: break;
+                    case FbnListType.MementosHit:
+                        MementosHits = new TriggerSound();
+                        MementosHits.Read(reader);
+                        break;
                     case FbnListType.Mask: break;
                     case FbnListType.StealsObj: break;
                     case FbnListType.Steals: break;
