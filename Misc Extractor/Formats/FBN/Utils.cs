@@ -16,7 +16,7 @@ namespace MiscExtractor.Formats.FBN
         }
         public static void SizeAssert(int Size, long Start, EndianBinaryReader reader)
         {
-            Trace.Assert(reader.Position - Size == Start - 4, "Seek position is off");
+            Trace.Assert(reader.Position - Size == Start - 4, $"Seek position is {reader.Position} instead of {Start - 4 + Size}");
         }
         public static HeaderInfo GetHeaderInfo(EndianBinaryReader reader)
         {
@@ -33,12 +33,12 @@ namespace MiscExtractor.Formats.FBN
 
         public static List<int> BitFieldRead(EndianBinaryReader reader)
         {
-            var value = reader.ReadInt32();
-            var binary = new BitArray(BitConverter.GetBytes(value));
+            var v = reader.ReadInt32();
             var bits = new List<int>();
+            var binary = Convert.ToString(v, 2).PadLeft(32, '0');
             for (int i = 0; i < binary.Length; i++)
             {
-                if (binary[i] == true)
+                if (binary[i] == '1')
                     bits.Add(i);
             }
             return bits;
@@ -48,10 +48,7 @@ namespace MiscExtractor.Formats.FBN
             bool[] bits = [];
             for (int i = 0; i < 32; i++)
             {
-                if (bitIndexes.Contains(i))
-                    bits[i] = true;
-                else
-                    bits[i] = false;
+                bits[i] = bitIndexes.Contains(i);
             }
 
             int[] FinalBits = new int[1];
