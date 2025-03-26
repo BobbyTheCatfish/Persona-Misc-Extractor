@@ -8,8 +8,8 @@ namespace MiscExtractor.Formats.FBN
     public class WanderShadowData : FileData
     {
         public int Unk1 { get; set; }
-        public int Unk2 { get; set; }
-        public int Unk3 { get; set; }
+        public short Unk2 { get; set; }
+        public short Unk3 { get; set; }
         public Vector3 Position { get; set; }
         public Vector3 Rotation { get; set; }
         public float WanderRadius { get; set; }
@@ -17,8 +17,8 @@ namespace MiscExtractor.Formats.FBN
         internal override void Read(EndianBinaryReader reader)
         {
             Unk1 = reader.ReadInt32();
-            Unk2 = reader.ReadInt32();
-            Unk3 = reader.ReadInt32();
+            Unk2 = reader.ReadInt16();
+            Unk3 = reader.ReadInt16();
             Position = reader.ReadVector3();
             Rotation = reader.ReadVector3();
             WanderRadius = reader.ReadSingle();

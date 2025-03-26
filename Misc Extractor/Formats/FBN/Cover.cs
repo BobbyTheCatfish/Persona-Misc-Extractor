@@ -8,7 +8,7 @@ namespace MiscExtractor.Formats.FBN
 {
     public class CoverData : FileData
     {
-        public IDictionary<string, bool> Flags { get; set; }
+        public Dictionary<string, bool> Flags { get; set; } = new();
         private Dictionary<int, string> FlagMap { get; set; } = new()
         {
             {24, "LStickAllowed"},
@@ -38,10 +38,8 @@ namespace MiscExtractor.Formats.FBN
             for (int i = 0; i < binary.Length; i++)
             {
                 FlagMap.TryGetValue(i, out string name);
-                if (binary[i] == true)
-                    Flags.Add(name ?? $"Flag{i}", true);
-                else
-                    Flags.Add(name ?? $"Flag{i}", false);
+                name ??= $"Flag{i}";
+                Flags.Add(name, binary[i]);
             }
             Unk1 = reader.ReadInt32();
 

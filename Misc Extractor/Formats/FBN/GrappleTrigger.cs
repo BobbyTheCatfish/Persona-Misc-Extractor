@@ -23,8 +23,8 @@ namespace MiscExtractor.Formats.FBN
         public Vector3 TopRight { get; set; }
         public Vector3 BottomLeft { get; set; }
         public Vector3 TopLeft { get; set; }
-        public float Unk8 { get; set; }
-        public float Unk9 { get; set; }
+        public short Unk8 { get; set; }
+        public short Unk9 { get; set; }
         internal override void Read(EndianBinaryReader reader)
         {
             Unk1 = reader.ReadInt32();
@@ -44,8 +44,8 @@ namespace MiscExtractor.Formats.FBN
             BottomLeft = reader.ReadVector3();
             TopLeft = reader.ReadVector3();
 
-            Unk8 = reader.ReadSingle();
-            Unk9 = reader.ReadSingle();
+            Unk8 = reader.ReadInt16();
+            Unk9 = reader.ReadInt16();
         }
         internal override void Write(EndianBinaryWriter writer)
         {
@@ -72,7 +72,7 @@ namespace MiscExtractor.Formats.FBN
             writer.Write(Unk9);
         }
     }
-    public class GrappleTrigger : BlockWithId
+    public class GrappleTrigger : Block
     {
 
         public List<GrappleTriggerData> Entries { get; set; } = new();
@@ -92,9 +92,9 @@ namespace MiscExtractor.Formats.FBN
             }
             Utils.SizeAssert(header.size, header.start, reader);
         }
-        internal override void Write(FbnListType type, EndianBinaryWriter writer)
+        internal override void Write(EndianBinaryWriter writer)
         {
-            writer.Write((int)type);
+            writer.Write((int)FbnListType.TriggerGrapple);
             writer.Write(Version);
             writer.Write(32 + Entries.Count * 100);
             writer.Write(16);
