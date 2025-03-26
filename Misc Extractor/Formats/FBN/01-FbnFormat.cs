@@ -8,10 +8,10 @@ using static MiscExtractor.FbnFormat;
 
 namespace MiscExtractor
 {
-    public abstract class FileDataWithId : FileData
+    public abstract class FileDataWithId
     {
+        internal abstract void Read(EndianBinaryReader reader);
         internal abstract void Write(FbnListType type, EndianBinaryWriter writer);
-        internal abstract void Read(EndianBinaryReader reader, FbnListType type = FbnListType.Entrance);
     }
     public sealed class FbnFormat : FileData, ISavable
     {
@@ -30,19 +30,11 @@ namespace MiscExtractor
         public class BlockWithId() : FileDataWithId
         {
             public int Version { get; set; }
-            internal override void Read(EndianBinaryReader reader, FbnListType type = FbnListType.Entrance)
-            {
-                throw new NotImplementedException();
-            }
             internal override void Write(FbnListType type, EndianBinaryWriter writer)
             {
                 throw new NotImplementedException();
             }
             internal override void Read(EndianBinaryReader reader)
-            {
-                throw new NotImplementedException();
-            }
-            internal override void Write(EndianBinaryWriter writer)
             {
                 throw new NotImplementedException();
             }
@@ -229,27 +221,27 @@ namespace MiscExtractor
         internal override void Write(EndianBinaryWriter writer)
         {
             new FbnHeader(Version).Write(writer);
-            SoundTriggers?.Write(writer);
-            CrowdSpawns?.Write(writer);
-            Navi?.Write(writer);
-            Entrances?.Write(writer);
-            Hits?.Write(writer);
-            Masks?.Write(writer);
-            CrowdPaths?.Write(writer);
+            SoundTriggers?.Write(FbnListType.TriggerSound, writer);
+            CrowdSpawns?.Write(FbnListType.CrowdSpawn, writer);
+            Navi?.Write(FbnListType.NAVI, writer);
+            Entrances?.Write(FbnListType.Entrance, writer);
+            Hits?.Write(FbnListType.Hit, writer);
+            Masks?.Write(FbnListType.Mask, writer);
+            CrowdPaths?.Write(FbnListType.CrowdPath, writer);
             WanderShadows?.Write(writer);
             Chests?.Write(writer);
             Cover?.Write(writer);
             PatrolShadows?.Write(writer);
-            MementosHits?.Write(writer);
+            MementosHits?.Write(FbnListType.MementosHit, writer);
             MementosEntrances?.Write(FbnListType.MementosEntrance, writer);
             NPCs?.Write(writer);
-            StealsObjs?.Write(writer);
-            Steals?.Write(writer);
-            LightPaths?.Write(writer);
+            StealsObjs?.Write(FbnListType.StealsObj, writer);
+            Steals?.Write(FbnListType.Steals, writer);
+            LightPaths?.Write(FbnListType.LightPath, writer);
             SearchObjects?.Write(writer);
-            SearchObjectHits?.Write(writer);
+            SearchObjectHits?.Write(FbnListType.SearchObjectHit, writer);
             WarningObjects?.Write(writer);
-            VoiceHits?.Write(writer);
+            VoiceHits?.Write(FbnListType.TriggerVoice, writer);
             MementosEntrances2?.Write(FbnListType.MementosEntrance2, writer);
             GrappleObjects?.Write(writer);
             GrappleTriggers?.Write(writer);
