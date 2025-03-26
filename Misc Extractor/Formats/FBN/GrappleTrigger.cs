@@ -23,7 +23,8 @@ namespace MiscExtractor.Formats.FBN
         public Vector3 TopRight { get; set; }
         public Vector3 BottomLeft { get; set; }
         public Vector3 TopLeft { get; set; }
-        public short Unk8 { get; set; }
+        // might be range in degrees??? one value is 360 but i haven't researched any other values
+        public short RangeDegrees { get; set; }
         public short Unk9 { get; set; }
         internal override void Read(EndianBinaryReader reader)
         {
@@ -44,7 +45,7 @@ namespace MiscExtractor.Formats.FBN
             BottomLeft = reader.ReadVector3();
             TopLeft = reader.ReadVector3();
 
-            Unk8 = reader.ReadInt16();
+            RangeDegrees = reader.ReadInt16();
             Unk9 = reader.ReadInt16();
         }
         internal override void Write(EndianBinaryWriter writer)
@@ -68,7 +69,7 @@ namespace MiscExtractor.Formats.FBN
             writer.Write(BottomLeft);
             writer.Write(TopLeft);
 
-            writer.Write(Unk8);
+            writer.Write(RangeDegrees);
             writer.Write(Unk9);
         }
     }

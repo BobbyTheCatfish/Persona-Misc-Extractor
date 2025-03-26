@@ -13,7 +13,7 @@ namespace MiscExtractor.Formats.FBN
         public Vector3 Position { get; set; }
         public Vector3 Rotation { get; set; }
         public float WanderRadius { get; set; }
-        public uint Unk4;
+        public uint Unk4 { get; set; }
         internal override void Read(EndianBinaryReader reader)
         {
             Unk1 = reader.ReadInt32();

@@ -6,7 +6,7 @@ using static MiscExtractor.FbnFormat;
 
 namespace MiscExtractor.Formats.FBN
 {
-    public class TriggerSoundData : FileData
+    public class TriggerData : FileData
     {
         public int Unk1 { get; set; }
         public List<int> TypeIdentifierBits { get; set; } = new();
@@ -16,7 +16,7 @@ namespace MiscExtractor.Formats.FBN
         public float Unk4 { get; set; }
         public float Scale { get; set; }
         public float Unk5 { get; set; }
-        public float Unk6 { get; set; }
+        public float RangeRadians { get; set; }
         public Vector3 BottomRight { get; set; }
         public Vector3 TopRight { get; set; }
         public Vector3 BottomLeft { get; set; }
@@ -34,7 +34,7 @@ namespace MiscExtractor.Formats.FBN
             Unk4 = reader.ReadSingle();
             Scale = reader.ReadSingle();
             Unk5 = reader.ReadSingle();
-            Unk6 = reader.ReadSingle();
+            RangeRadians = reader.ReadSingle();
             
             BottomRight = reader.ReadVector3();
             TopRight = reader.ReadVector3();
@@ -56,7 +56,7 @@ namespace MiscExtractor.Formats.FBN
             writer.Write(Unk4);
             writer.Write(Scale);
             writer.Write(Unk5);
-            writer.Write(Unk6);
+            writer.Write(RangeRadians);
             
             writer.Write(BottomRight);
             writer.Write(TopRight);
@@ -67,10 +67,10 @@ namespace MiscExtractor.Formats.FBN
             writer.Write(Unk8);
         }
     }
-    public class TriggerSound : BlockWithId
+    public class Trigger : BlockWithId
     {
 
-        public List<TriggerSoundData> Entries { get; set; } = new();
+        public List<TriggerData> Entries { get; set; } = new();
         internal override void Read(EndianBinaryReader reader)
         {
             var header = Utils.GetHeaderInfo(reader);
@@ -80,7 +80,7 @@ namespace MiscExtractor.Formats.FBN
 
             for (int i = 0; i < EntryCount; i++)
             {
-                var Entry = new TriggerSoundData();
+                var Entry = new TriggerData();
                 Entry.Read(reader);
 
                 Entries.Add(Entry);

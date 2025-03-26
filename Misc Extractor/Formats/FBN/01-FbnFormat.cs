@@ -82,20 +82,20 @@ namespace MiscExtractor
             Header = 1178750512
         }
         public int Version { get; set; }
-        public TriggerSound SoundTriggers { get; set; }
+        public Trigger Triggers { get; set; }
         public Entrance Entrances { get; set; }
         public Chest Chests { get; set; }
         public Cover Cover { get; set; }
         public SearchObject SearchObjects { get; set; }
-        public TriggerSound SearchObjectHits { get; set; }
+        public Trigger SearchObjectHits { get; set; }
         public PatrolShadow PatrolShadows { get; set; }
         public WanderShadow WanderShadows { get; set; }
-        public TriggerSound VoiceHits { get; set; }
+        public Trigger VoiceHits { get; set; }
         public WarningObject WarningObjects { get; set; }
         public NPC NPCs { get; set; }
         public GrappleObject GrappleObjects { get; set; }
         public GrappleTrigger GrappleTriggers { get; set; }
-        public TriggerSound MementosHits { get; set; }
+        public Trigger MementosHits { get; set; }
         public Entrance MementosEntrances { get; set; }
         public Entrance MementosEntrances2 { get; set; }
         public UnknownBlock Navi {  get; set; }
@@ -119,8 +119,8 @@ namespace MiscExtractor
                         Version = header.Version;
                         break;
                     case FbnListType.TriggerSound:
-                        SoundTriggers = new TriggerSound();
-                        SoundTriggers.Read(reader);
+                        Triggers = new Trigger();
+                        Triggers.Read(reader);
                         break;
                     case FbnListType.Entrance:
                         Entrances = new Entrance();
@@ -147,11 +147,11 @@ namespace MiscExtractor
                         WanderShadows.Read(reader);
                         break;
                     case FbnListType.SearchObjectHit:
-                        SearchObjectHits = new TriggerSound();
+                        SearchObjectHits = new Trigger();
                         SearchObjectHits.Read(reader);
                         break;
                     case FbnListType.TriggerVoice:
-                        VoiceHits = new TriggerSound();
+                        VoiceHits = new Trigger();
                         VoiceHits.Read(reader);
                         break;
                     case FbnListType.WarningObject:
@@ -179,7 +179,7 @@ namespace MiscExtractor
                         MementosEntrances2.Read(reader);
                         break;
                     case FbnListType.MementosHit:
-                        MementosHits = new TriggerSound();
+                        MementosHits = new Trigger();
                         MementosHits.Read(reader);
                         break;
                     case FbnListType.CrowdPath:
@@ -221,7 +221,7 @@ namespace MiscExtractor
         internal override void Write(EndianBinaryWriter writer)
         {
             new FbnHeader(Version).Write(writer);
-            SoundTriggers?.Write(FbnListType.TriggerSound, writer);
+            Triggers?.Write(FbnListType.TriggerSound, writer);
             CrowdSpawns?.Write(FbnListType.CrowdSpawn, writer);
             Navi?.Write(FbnListType.NAVI, writer);
             Entrances?.Write(FbnListType.Entrance, writer);
