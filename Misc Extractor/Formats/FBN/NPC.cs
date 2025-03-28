@@ -84,6 +84,7 @@ namespace MiscExtractor.Formats.FBN
             }
             writer.Write(size);
             writer.Write(16);
+            writer.Write(Entries.Count);
             writer.Write((int[])[0, 0, 0]);
             foreach (var Entry in Entries)
             {

@@ -69,10 +69,7 @@ namespace MiscExtractor.Formats.FBN
                     realKey = Convert.ToInt32(key[4]);
                 else
                     realKey = FlagMap.FirstOrDefault(x => x.Value == key).Key;
-                if (flag == true)
-                    bits[realKey] = true;
-                else
-                    bits[realKey] = false;
+                bits[realKey] = flag;
             }
 
             int[] FinalBits = new int[1];
@@ -120,8 +117,9 @@ namespace MiscExtractor.Formats.FBN
         {
             writer.Write((int)FbnListType.Cover);
             writer.Write(Version);
-            writer.Write(32 + Entries.Count * 56);
+            writer.Write(32 + Entries.Count * 148);
             writer.Write(16);
+            writer.Write(Entries.Count);
             writer.Write((int[])[0, 0, 0]);
             foreach (var Entry in Entries)
             {

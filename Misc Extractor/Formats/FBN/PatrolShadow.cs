@@ -87,10 +87,11 @@ namespace MiscExtractor.Formats.FBN
             int size = 32;
             foreach (var entry in Entries)
             {
-                size += 26 + entry.PathNodes.Length * 16;
+                size += 28 + entry.PathNodes.Length * 16;
             }
             writer.Write(size);
             writer.Write(16);
+            writer.Write(Entries.Count);
             writer.Write((int[])[0, 0, 0]);
             foreach (var Entry in Entries)
             {

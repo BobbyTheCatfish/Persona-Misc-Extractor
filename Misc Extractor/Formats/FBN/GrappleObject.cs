@@ -71,8 +71,9 @@ namespace MiscExtractor.Formats.FBN
         {
             writer.Write((int)FbnListType.GrappleObject);
             writer.Write(Version);
-            writer.Write(32 + Entries.Count * 5648);
+            writer.Write(32 + Entries.Count * 48);
             writer.Write(16);
+            writer.Write(Entries.Count);
             writer.Write((int[])[0, 0, 0]);
             foreach (var Entry in Entries)
             {
