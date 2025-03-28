@@ -18,11 +18,11 @@ namespace MiscExtractor.Formats.FBN
             {29, "EnablePoint1"},
         };
         public int Unk1 { get; set; }
-        public Vector3[] JokerPosition { get; set; }
-        public Vector3[] JokerRotation { get; set; }
-        public Vector3[] PartyRotation { get; set; }
-        public Vector3[] IconPosition { get; set; }
-        public Vector3[] CameraRotation { get; set; }
+        public Vector3[] JokerPositions { get; set; }
+        public Vector3[] JokerRotations { get; set; }
+        public Vector3[] PartyRotations { get; set; }
+        public Vector3[] IconPositions { get; set; }
+        public Vector3[] CameraRotations { get; set; }
         public int Unk2 { get; set; }
         public int Unk3 { get; set; }
         public int Unk4 { get; set; }
@@ -32,21 +32,20 @@ namespace MiscExtractor.Formats.FBN
         public short Unk6 { get; set; }
         internal override void Read(EndianBinaryReader reader)
         {
-            var value = reader.ReadInt32();
-            var binary = new BitArray(BitConverter.GetBytes(value));
+            var value = Convert.ToString(reader.ReadInt32(), 2).PadLeft(32);
 
-            for (int i = 0; i < binary.Length; i++)
+            for (int i = 0; i < value.Length; i++)
             {
                 FlagMap.TryGetValue(i, out string name);
                 name ??= $"Flag{i}";
-                Flags.Add(name, binary[i]);
+                Flags.Add(name, value[i] == '1');
             }
             Unk1 = reader.ReadInt32();
 
-            JokerPosition = reader.ReadVector3s(2);
-            PartyRotation = reader.ReadVector3s(2);
-            IconPosition = reader.ReadVector3s(2);
-            CameraRotation = reader.ReadVector3s(2);
+            JokerPositions = reader.ReadVector3s(2);
+            PartyRotations = reader.ReadVector3s(2);
+            IconPositions = reader.ReadVector3s(2);
+            CameraRotations = reader.ReadVector3s(2);
 
             Unk2 = reader.ReadInt32();
             Unk3 = reader.ReadInt32();
@@ -57,7 +56,7 @@ namespace MiscExtractor.Formats.FBN
             Unk5 = reader.ReadInt16();
             Unk6 = reader.ReadInt16();
 
-            JokerRotation = reader.ReadVector3s(2);
+            JokerRotations = reader.ReadVector3s(2);
         }
         internal override void Write(EndianBinaryWriter writer)
         {
@@ -82,10 +81,10 @@ namespace MiscExtractor.Formats.FBN
 
             writer.Write(Unk1);
 
-            writer.Write(JokerPosition);
-            writer.Write(PartyRotation);
-            writer.Write(IconPosition);
-            writer.Write(CameraRotation);
+            writer.Write(JokerPositions);
+            writer.Write(PartyRotations);
+            writer.Write(IconPositions);
+            writer.Write(CameraRotations);
 
             writer.Write(Unk2);
             writer.Write(Unk3);
@@ -95,7 +94,7 @@ namespace MiscExtractor.Formats.FBN
             writer.Write(Unk5);
             writer.Write(Unk6);
 
-            writer.Write(JokerRotation);
+            writer.Write(JokerRotations);
         }
     }
     public class Cover : Block

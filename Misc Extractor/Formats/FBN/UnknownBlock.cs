@@ -7,14 +7,11 @@ namespace MiscExtractor.Formats.FBN
 {
     public class UnknownBlock : BlockWithId
     {
-        [JsonConverter(typeof(StringEnumConverter))]
-        public FbnListType Type { get; set; }
         public List<string> RawData {  get; set; }
         public int EntryCount { get; set; }
         public uint[] Padding { get; set; }
-        internal override void Read(EndianBinaryReader reader, FbnListType type)
+        internal override void Read(EndianBinaryReader reader)
         {
-            Type = type;
             var header = Utils.GetHeaderInfo(reader);
             Version = header.Version;
             Padding = header.Padding;
@@ -27,9 +24,9 @@ namespace MiscExtractor.Formats.FBN
                 RawData.Add(string.Join(" ", entry));
             }
         }
-        internal override void Write(EndianBinaryWriter writer)
+        internal override void Write(FbnListType type, EndianBinaryWriter writer)
         {
-            writer.Write((int)Type);
+            writer.Write((int)type);
             writer.Write(Version);
             writer.Write(32 + 16 * RawData.Count);
             writer.Write(16);
