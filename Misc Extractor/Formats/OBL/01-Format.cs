@@ -22,26 +22,26 @@ namespace Misc_Extractor
         }
         public class Entry : FileData
         {
-            public short Static32 { get; set; }
             public short Static512 { get; set; }
             public ushort ResourceHandler { get; set; }
+            public short Field3 { get; set; }
             public short CollectedBitFlag { get; set; }
             public short Field5 { get; set; }
             public short Field6 { get; set; }
             internal override void Read(EndianBinaryReader reader)
             {
-                Static32 = reader.ReadInt16();
-                Static512 = reader.ReadInt16();
                 ResourceHandler = reader.ReadUInt16();
+                Static512 = reader.ReadInt16();
+                Field3 = reader.ReadInt16();
                 CollectedBitFlag = reader.ReadInt16();
                 Field5 = reader.ReadInt16();
                 Field6 = reader.ReadInt16();
             }
             internal override void Write(EndianBinaryWriter writer)
             {
-                writer.Write(Static32);
-                writer.Write(Static512);
                 writer.Write(ResourceHandler);
+                writer.Write(Static512);
+                writer.Write(Field3);
                 writer.Write(CollectedBitFlag);
                 writer.Write(Field5);
                 writer.Write(Field6);
