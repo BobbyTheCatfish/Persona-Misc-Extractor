@@ -20,6 +20,7 @@ namespace MiscExtractor
                 ".HTB",
                 ".SHT",
                 ".FBN",
+                ".OBL",
                 ".JSON",
             };
 
@@ -75,6 +76,8 @@ namespace MiscExtractor
                 else if (path.EndsWith(".fbn.json", filesettings))
                     file = JsonConvert.DeserializeObject<FbnFormat>(json, writeSettings);
 
+                else if (path.EndsWith(".obl.json", filesettings))
+                    file = JsonConvert.DeserializeObject<OblFormat>(json, writeSettings);
                 else
                 {
                     Console.WriteLine("Unrecognized JSON type. Did you alter the extension of this file? Expected name format is 'filename.format.json'");
@@ -119,6 +122,11 @@ namespace MiscExtractor
             {
                 obj = new FbnFormat(path);
                 newExtension = "fbn.json";
+            }
+            else if (path.EndsWith("obl", filesettings))
+            {
+                obj = new OblFormat(path);
+                newExtension = "obl.json";
             }
             else
             {
