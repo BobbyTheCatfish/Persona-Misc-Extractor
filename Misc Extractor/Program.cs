@@ -10,7 +10,7 @@ namespace MiscExtractor
             var DEBUG = true;
             if (DEBUG)
             {
-                args = ["C:\\Users\\jaabs\\Downloads\\D091_160.FBN"];
+                args = ["C:\\Users\\jaabs\\Downloads\\Ultimate.FBN"];
             }
             var filesettings = StringComparison.InvariantCultureIgnoreCase;
             var supportedFiles = new string[]
