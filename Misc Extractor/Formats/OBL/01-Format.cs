@@ -20,15 +20,48 @@ namespace Misc_Extractor
             using (var stream = File.OpenRead(path))
                 Read(new EndianBinaryReader(stream, Endianness.Big));
         }
-
+        public class Entry : FileData
+        {
+            public short Static32 { get; set; }
+            public short Static512 { get; set; }
+            public ushort ResourceHandler { get; set; }
+            public short CollectedBitFlag { get; set; }
+            public short Field5 { get; set; }
+            public short Field6 { get; set; }
+            internal override void Read(EndianBinaryReader reader)
+            {
+                Static32 = reader.ReadInt16();
+                Static512 = reader.ReadInt16();
+                ResourceHandler = reader.ReadUInt16();
+                CollectedBitFlag = reader.ReadInt16();
+                Field5 = reader.ReadInt16();
+                Field6 = reader.ReadInt16();
+            }
+            internal override void Write(EndianBinaryWriter writer)
+            {
+                writer.Write(Static32);
+                writer.Write(Static512);
+                writer.Write(ResourceHandler);
+                writer.Write(CollectedBitFlag);
+                writer.Write(Field5);
+                writer.Write(Field6);
+            }
+        }
         public FTDHeader TableHeader { get; set; } = new();
         public OBLHeader Header { get; set; } = new();
-        public List<int> Entries { get; set; } = new();
+        public List<Entry> Entries { get; set; } = new();
         internal override void Read(EndianBinaryReader reader)
         {
             TableHeader.Read(reader);
             Header.Read(reader);
             int EntryCount = Header.EntryCount;
+
+            for (int i = 0; i < EntryCount; i++)
+            {
+                Entry entry = new ();
+                entry.Read(reader);
+                Entries.Add(entry);
+            }
         }
         internal override void Write(EndianBinaryWriter writer)
         {
@@ -37,6 +70,11 @@ namespace Misc_Extractor
 
             Header.EntryCount = Entries.Count;
             Header.Write(writer);
+
+            foreach (Entry entry in Entries)
+            {
+                entry.Write(writer);
+            }
         }
     }
 }
